@@ -2,4 +2,4 @@ test
 .*
 !.gitignore
 *.pdf
-
+minishell

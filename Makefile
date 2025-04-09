@@ -1,6 +1,8 @@
 # Variables
-CFLAGS			=	-Wall -Wextra -Werror
 NAME			=	minishell
+CFLAGS			=	-Wall -Wextra -Werror
+NOPIE			=	-no-pie
+RL				=	-lreadline
 OBJ_DIR			=	obj
 LIBFT_DIR		=	libft
 LIBFT			=	$(LIBFT_DIR)/libft.a
@@ -22,7 +24,7 @@ $(LIBFT):
 	@make -C $(LIBFT_DIR) both
 
 $(NAME): $(LIBFT) $(OBJS)
-	@gcc $(CFLAGS) $(OBJS) $(LIBFT) -g -o $(NAME)
+	@gcc $(CFLAGS) $(OBJS) $(LIBFT) -g -o $(NAME) $(RL) $(NOPIE)
 	@echo "$(GREEN)$(NAME) created$(NC)"
 
 $(OBJ_DIR)/%.o: src/%.c
