@@ -1,10 +1,11 @@
 #include "../minishell.h"
 
-void	init_data(data_t **d, char **env)
+void	init_data(data_t **d, char **envs)
 {
-	*d = malloc(sizeof(data_t));
-	if (*d == NULL)
-		error(d, "malloc");
-	(*d)->shell_line = NULL;
-	(*d)->envs = env;
+	*d = salloc(sizeof(data_t), NULL);
+	(*d)->envs = envs;
+	(*d)->sh_ln = NULL;
+	(*d)->user = NULL;
+	// (*d)->host = NULL;
+	(*d)->pwd = NULL;
 }

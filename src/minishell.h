@@ -27,17 +27,29 @@ typedef struct s_shell_line
 
 typedef struct s_data
 {
-	struct s_shell_line	*shell_line;
+	char				*line;
+	struct s_shell_line	*sh_ln;
 	char				**envs;
-
+	char				*user;
+	// char				*host;
+	char				*pwd;
+	// char				*prompt;
 }						data_t;
 
 /* Utils */
 void			init_data(data_t **d, char **env);
 void			free_data(data_t *d);
+char			*ft_getenv(char *name, data_t *d);
+char			*prompter(data_t *d);
+
+/* Secure Alloc, forces etix if malloc fails */
+void			*salloc(size_t size, data_t *d);
+
+/* Print an error and extit */
 void			error(data_t *d, char *msg);
 
 /* Executer */
+void			loop(data_t *d);
 void			executer(shell_line_t *shell_line);
 
 

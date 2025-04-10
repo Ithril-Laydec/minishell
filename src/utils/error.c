@@ -2,18 +2,17 @@
 
 void	free_data(data_t *d)
 {
-	if (d->shell_line != NULL)
+	if (!d)
+		return ;
+	if (d->sh_ln)
 	{
-		free(d->shell_line->line);
-		free(d->shell_line->cmd);
-		free(d->shell_line->redir);
-		free(d->shell_line);
-	}
-	if (d->envs != NULL)
-	{
-		for (int i = 0; d->envs[i] != NULL; i++)
-			free(d->envs[i]);
-		free(d->envs);
+		if (d->sh_ln->line)
+			free(d->sh_ln->line);
+		if (d->sh_ln->cmd)
+			free(d->sh_ln->cmd);
+		if (d->sh_ln->redir)
+			free(d->sh_ln->redir);
+		free(d->sh_ln);
 	}
 	free(d);
 }
@@ -22,8 +21,6 @@ void	error(data_t *d, char *msg)
 {
 	free_data(d);
 	if (msg != NULL)
-	{
 		perror(msg);
-		exit(EXIT_FAILURE);
-	}
+	exit(EXIT_FAILURE);
 }

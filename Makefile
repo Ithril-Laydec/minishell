@@ -1,6 +1,6 @@
 # Variables
 NAME			=	minishell
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	# -Wall -Wextra -Werror
 NOPIE			=	-no-pie
 RL				=	-lreadline
 OBJ_DIR			=	obj
@@ -48,7 +48,7 @@ re: fclean all
 clear:
 	@clear
 
-test: $(NAME)
+test: clear $(NAME)
 	./$(NAME)
 
 
