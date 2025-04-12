@@ -20,11 +20,10 @@ void	loop(data_t *d)
 	{
 		printf("%s",prompter(d));
 		d->line = readline("");
-		// d->line = aux;
 		if (d->line == NULL)
 			break;
 		add_history(d->line);
-		// d->sh_ln = parser(d->line);
+		// d->sh_ln = // parser(d->line);
 		// if (d->sh_ln == NULL)
 		// {
 		// 	printf("Error parsing line\n");

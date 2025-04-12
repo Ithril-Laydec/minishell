@@ -21,7 +21,7 @@ all: $(NAME)
 
 
 $(LIBFT):
-	@make -C $(LIBFT_DIR) both
+	@make -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(OBJS)
 	@gcc $(CFLAGS) $(OBJS) $(LIBFT) -g -o $(NAME) $(RL) $(NOPIE)
@@ -48,7 +48,7 @@ re: fclean all
 clear:
 	@clear
 
-test: clear $(NAME)
+test: clear $(LIBFT) $(NAME)
 	./$(NAME)
 
 

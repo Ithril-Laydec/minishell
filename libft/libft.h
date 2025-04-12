@@ -6,7 +6,7 @@
 /*   By: itjimene <itjimene@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 20:05:31 by itjimene          #+#    #+#             */
-/*   Updated: 2025/03/01 19:06:34 by itjimene         ###   ########.fr       */
+/*   Updated: 2025/04/11 13:17:07 by itjimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strrev(char *str);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
 
 /* ConversionAndNumbers */
 int		ft_atoi(const char *str);

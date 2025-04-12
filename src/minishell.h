@@ -25,11 +25,19 @@ typedef struct s_shell_line
 	struct s_shell_line	*next;
 }						shell_line_t;
 
+typedef struct s_envs
+{
+	char				*name;	// Nombre de la variable
+	char				*value;	// Valor de la variable
+	// int					index;
+	struct s_envs		*next;
+}						envs_t;
+
 typedef struct s_data
 {
 	char				*line;
 	struct s_shell_line	*sh_ln;
-	char				**envs;
+	struct s_envs		*envs; // Lista enlazada para el export
 	char				*user;
 	// char				*host;
 	char				*pwd;
