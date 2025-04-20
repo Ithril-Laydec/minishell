@@ -4,12 +4,16 @@
 
 void	free_double_char(char **str)
 {
-	if (!str || !*str)
+	int	index;
+
+	if (!str)
 		return ;
-	while (*str)
+	index = 0;
+	while (str[index])
 	{
-		free(*str);
-		str = NULL;
+		free(str[index]);
+		str[index] = NULL;
 	}
 	free(str);
+	str = NULL;
 }

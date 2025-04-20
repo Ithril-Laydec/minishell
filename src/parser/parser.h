@@ -50,13 +50,18 @@ esta función se asegura de borrar cada palabra y luego borrar la
 lista completa para que no ocupe espacio en la memoria.	*/
 
 // ** PARSING UTILS **
+int				no_space_finder(char *str);
+/*	Esta función busca en una cadena de texto el primer carácter que no
+sea un espacio en blanco. Devuelve la posición de ese carácter. Es útil
+para ignorar espacios al principio de una línea o palabra.	*/
 int				is_space(char c);
 /*	Esta función revisa si un carácter (una letra o símbolo) es un
 espacio en blanco. Un espacio en blanco puede ser el espacio normal
 (como el que haces con la barra espaciadora) o cosas como tabulaciones.	*/
 
-int				words_counter(char *line);
-/*	Esta función cuenta cuántas palabras hay en una línea de texto,
-pero solo cuenta palabras separadas por espacios.	*/
+char			*ft_strndup(const char *str, size_t init);
+/*	Esta función toma una cadena de caracteres (str) y crea una nueva
+cadena que contiene los primeros 'init' caracteres de 'str'. Es útil
+cuando necesitas copiar solo una parte de una cadena.	*/
 
 #endif

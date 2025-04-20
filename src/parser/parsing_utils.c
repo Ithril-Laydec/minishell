@@ -1,6 +1,6 @@
 
 #include "../minishell.h"
-#include "../parser.h"
+#include "parser.h"
 
 int	is_space(char c)
 {
@@ -9,22 +9,39 @@ int	is_space(char c)
 	return (0);
 }
 
-int	words_counter(char *line)
+int	no_space_finder(char *str)
 {
-	int	count;
 	int	index;
 
-	count = 0;
 	index = 0;
-	while (is_space(line[index]) == 1)
+	while (str[index] && is_space(str[index]) == 1)
 		index++;
-	if (line[index] && is_space(line[index]) == 0)
-		count++;
-	while (line[index++])
+	return (index);
+}
+
+char	*ft_strndup(const char *str, size_t init)
+{
+	char	*dup;
+	size_t	end;
+	size_t	index;
+
+	end = ft_strlen(str) - 1;
+	while (str[end])
 	{
-		if (is_space(line[index]) == 1
-			&& (line[index + 1] && is_space(line[index + 1]) == 0))
-			count++;
+		if (is_space(str[end]) == 0)
+			break ;
+		end--;
 	}
-	return (count);
+	dup = malloc((end - init) + 1);
+	if (!dup)
+		return (NULL);
+	index = 0;
+	while (init <= end && str[init])
+	{
+		dup[index] = str[init];
+		index++;
+		init++;
+	}
+	dup[index] = '\0';
+	return (dup);
 }

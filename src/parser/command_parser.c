@@ -1,15 +1,8 @@
 
 #include "../minishell.h"
-#include "../parser.h"
+#include "parser.h"
 
-char	**command_chopper(char *line)
-{
-	char	**seg;
-
-	if (words_counter(line) == 1)
-		seg[0] = line;
-	return (seg);
-}
+/* char	**command_chopper(char *line); */
 
 shell_line_t	*command_node(char *line)
 {
@@ -21,9 +14,10 @@ shell_line_t	*command_node(char *line)
 		free(command);
 		return (NULL);
 	}
-	command->line = ft_strdup(line);
-	command->cmd = command_chopper(line);
+	command->line = ft_strndup(line, no_space_finder(line));
+	//command->cmd = command_chopper(line);
 	command->next = NULL;
+	return (command);
 }
 
 shell_line_t	*command_struct(char *line)
@@ -33,11 +27,11 @@ shell_line_t	*command_struct(char *line)
 	char			**lines;
 	int				index;
 
+	index = 0;
+	line = ft_strndup(line, no_space_finder(line));
 	lines = ft_split(line, '|');
-	if (!lines)
-		return ;
 	commands = NULL;
-	while (lines[index++])
+	while (lines[index])
 	{
 		if (!commands)
 		{
@@ -46,9 +40,10 @@ shell_line_t	*command_struct(char *line)
 		}
 		else
 		{
-			temp->next = command_code(lines[index]);
+			temp->next = command_node(lines[index]);
 			temp = temp->next;
 		}
+		index++;
 	}
 	free_double_char(lines);
 	return (commands);
