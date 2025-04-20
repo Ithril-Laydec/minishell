@@ -1,5 +1,6 @@
 
 #include "../minishell.h"
+#include "../parser.h"
 
 void	free_double_char(char **str)
 {
