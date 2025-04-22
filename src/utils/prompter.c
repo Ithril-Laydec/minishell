@@ -2,19 +2,22 @@
 
 char	*ft_getenv(char *name, data_t *d)
 {
-	int	i;
+	envs_t	*tmp;
+	tmp = d->envs;
 
-	i = 0;
-	while (d->envs[i])
+	if (name == NULL || d == NULL || d->envs == NULL)
+		return (NULL);
+	while (tmp)
 	{
-		if (ft_strncmp(d->envs[i], name, ft_strlen(name)) == 0)
+		if (ft_strcmp(tmp->name, name) == 0)
 		{
-			return (d->envs[i] + ft_strlen(name) + 1);
+			return (tmp->value);
 		}
-		i++;
+		tmp = tmp->next;
 	}
 	return (NULL);
 }
+
 char *parse_pwd(char *pwd, data_t *d)
 {
 	char *home;

@@ -18,20 +18,23 @@ void	loop(data_t *d)
 {
 	while (42)
 	{
-		printf("%s",prompter(d));
+		char *prompt = prompter(d);
+		printf("%s", prompt);
+		free(prompt);
 		d->line = readline("");
 		if (d->line == NULL)
 			break;
 		add_history(d->line);
-		// d->sh_ln = // parser(d->line);
-		// if (d->sh_ln == NULL)
-		// {
-		// 	printf("Error parsing line\n");
-		// 	free(d->line);
-		// 	continue;
-		// }
+		d->sh_ln = command_struct(d->line);
+		if (d->sh_ln == NULL)
+		{
+			printf("Error parsing line\n");
+			free(d->line);
+			continue;
+		}
+		printf("%s\n", d->sh_ln->line);
 		// executer(d);
 		// free(d->sh_ln);
-		printf("%s\n", d->line);
+		// printf("%s\n", d->line);
 	}
 }

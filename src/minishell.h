@@ -53,8 +53,15 @@ char			*prompter(data_t *d);
 /* Secure Alloc, forces etix if malloc fails */
 void			*salloc(size_t size, data_t *d);
 
-/* Print an error and extit */
+/* Print an error and exit */
 void			error(data_t *d, char *msg);
+
+/* Parser */
+shell_line_t	*command_struct(char *line);
+shell_line_t	*command_node(char *line);
+void			free_double_char(char **str);
+int				no_space_finder(char *str);
+
 
 /* Executer */
 void			loop(data_t *d);
