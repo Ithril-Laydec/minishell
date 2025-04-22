@@ -61,6 +61,7 @@ shell_line_t	*command_struct(char *line);
 shell_line_t	*command_node(char *line);
 void			free_double_char(char **str);
 int				no_space_finder(char *str);
+char			*ft_strndup(const char *str, size_t init);
 
 
 /* Executer */
