@@ -21,19 +21,19 @@ nodos. También tiene funciones para contar palabras, revisar espacios y
 limpiar memoria.	*/
 
 // ** COMMAND PARSER **
-shell_line_t	*command_struct(char *line);
+shell_line_t	*command_struct(char *line, data_t *d);
 /*	Esta función toma una línea que puede tener varios comandos separados
 por | (el símbolo de "pipe" en los shells) y crea una lista de nodos, uno
 por cada comando.	*/
 
-shell_line_t	*command_node(char *line);
+shell_line_t	*command_node(char *line, data_t *d);
 /*	Crea un "nodo" (una cajita) que guarda información sobre un comando.
 Este nodo tiene:
 * La línea completa (copiada con ft_strdup).
 * Los pedazos del comando (usando command_chopper).
 * Un enlace al siguiente nodo (como una lista encadenada).	*/
 
-char			**command_chopper(char *line);
+char			**command_chopper(char *line, data_t *d);
 /*	Esta función tiene como objetivo dividir una línea en pedazos
 (como palabras o comandos), pero está incompleta. Solo maneja el caso
 en que hay una sola palabra. No asigna memoria para seg correctamente

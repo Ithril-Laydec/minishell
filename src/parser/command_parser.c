@@ -4,7 +4,7 @@
 
 /* char	**command_chopper(char *line); */
 
-shell_line_t	*command_node(char *line)
+shell_line_t	*command_node(char *line, data_t *d)
 {
 	shell_line_t	*command;
 
@@ -14,13 +14,13 @@ shell_line_t	*command_node(char *line)
 		free(command);
 		return (NULL);
 	}
-	command->line = ft_strndup(line, no_space_finder(line));
+	command->line = command_expander(ft_strndup(line, no_space_finder(line)), d);
 	//command->cmd = command_chopper(line);
 	command->next = NULL;
 	return (command);
 }
 
-shell_line_t	*command_struct(char *line)
+shell_line_t	*command_struct(char *line, data_t *d)
 {
 	shell_line_t	*commands;
 	shell_line_t	*temp;
@@ -35,12 +35,12 @@ shell_line_t	*command_struct(char *line)
 	{
 		if (!commands)
 		{
-			commands = command_node(lines[index]);
+			commands = command_node(lines[index], d);
 			temp = commands;
 		}
 		else
 		{
-			temp->next = command_node(lines[index]);
+			temp->next = command_node(lines[index], d);
 			temp = temp->next;
 		}
 		index++;

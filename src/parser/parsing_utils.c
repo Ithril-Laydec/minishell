@@ -2,6 +2,23 @@
 #include "../minishell.h"
 #include "parser.h"
 
+int	char_counter(char *line, char c)
+{
+	int	line;
+	int	counter;
+	int	index;
+
+	counter = 0;
+	index = 0;
+	while (line[index])
+	{
+		if (line[index] == c)
+			counter++;
+		index++;
+	}
+	return (counter);
+}
+
 int	is_space(char c)
 {
 	if (c == 32 || (c >= 9 && c <= 13))
