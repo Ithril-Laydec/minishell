@@ -1,7 +1,6 @@
 
 #include "../minishell.h"
-
-/* char	**command_chopper(char *line); */
+#include "parser.h"
 
 shell_line_t	*command_node(char *line)
 {
@@ -13,8 +12,8 @@ shell_line_t	*command_node(char *line)
 		free(command);
 		return (NULL);
 	}
-	//command->line = ft_strndup(line, no_space_finder(line));
-	//command->cmd = command_chopper(line);
+	command->line = ft_strndup(line, no_space_finder(line));
+	command->cmd = ft_split(line, ' ');
 	command->next = NULL;
 	return (command);
 }
