@@ -10,6 +10,7 @@ int	main(int argc, char **argv, char **envs)
 	if (argc > 1 && argv)
 		error(NULL, "Error: Too many arguments");
 	init_data(&d, envs);
+	print_ascii_art("shellder.txt");
 	loop(d);
 	free_data(d);
 	return (0);
@@ -18,23 +19,21 @@ void	loop(data_t *d)
 {
 	while (42)
 	{
-		char *prompt = prompter(d);
-		printf("%s", prompt);
-		free(prompt);
-		d->line = readline("");
+		d->line = readline(prompter(d));
 		if (d->line == NULL)
 			break;
 		add_history(d->line);
 		d->sh_ln = command_struct(d->line);
 		if (d->sh_ln == NULL)
 		{
-			printf("Error parsing line\n");
+			ft_printf("\n");
 			free(d->line);
 			continue;
 		}
-		printf("%s\n", d->sh_ln->line);
-		// executer(d);
-		// free(d->sh_ln);
-		// printf("%s\n", d->line);
+		executer(d);
+		ft_printf("\n");
+		free(d->line);
+		free(d->sh_ln->line);
+		free(d->sh_ln->cmd);
 	}
 }

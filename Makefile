@@ -40,6 +40,7 @@ clean:
 
 fclean: clean
 	@echo -n "$(RED)"
+	@make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 	@echo -n "$(NC)"
 

@@ -1,23 +1,5 @@
 #include "../minishell.h"
 
-char	*ft_getenv(char *name, data_t *d)
-{
-	envs_t	*tmp;
-	tmp = d->envs;
-
-	if (name == NULL || d == NULL || d->envs == NULL)
-		return (NULL);
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, name) == 0)
-		{
-			return (tmp->value);
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
 char *parse_pwd(char *pwd, data_t *d)
 {
 	char *home;
@@ -44,17 +26,18 @@ char	*prompter(data_t *d)
 	prompt = ft_strdup("");
 	if (prompt == NULL)
 		error(d, "Error: Unable to allocate memory for prompt.");
-	prompt = ft_strjoin(prompt, "\033[35m");
+	//TODO: arreglar fugas
+	prompt = ft_strjoin(prompt, "\001\033[35m\002");
 	prompt = ft_strjoin(prompt, d->user);
-	prompt = ft_strjoin(prompt, "\033[34m@");
-	prompt = ft_strjoin(prompt, "\033[33m");
-	prompt = ft_strjoin(prompt, "Cloyster");
-	prompt = ft_strjoin(prompt, "\033[37m");
-	prompt = ft_strjoin(prompt, "\033[1;32m");
+	prompt = ft_strjoin(prompt, "\001\033[34m@\002");
+	prompt = ft_strjoin(prompt, "\001\033[33m\002");
+	prompt = ft_strjoin(prompt, "Shellder");
+	prompt = ft_strjoin(prompt, "\001\033[37m\002");
+	prompt = ft_strjoin(prompt, "\001\033[1;32m\002");
 	prompt = ft_strjoin(prompt, ": ");
 	prompt = ft_strjoin(prompt, d->pwd);
 	prompt = ft_strjoin(prompt, "$> ");
-	prompt = ft_strjoin(prompt, "\033[0m");
+	prompt = ft_strjoin(prompt, "\001\033[0m\002");
 	return (prompt);
 }
 

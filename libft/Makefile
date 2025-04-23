@@ -4,13 +4,9 @@ CFLAGS	= -Wall -Wextra -Werror
 LEAKS	= -fsanitize=address
 NAME	= libft.a
 
-SRCS			=	$(shell find src -type f -name "ft_*.c" ! -name "ft_lst*.c" )
-BONUS_SRCS		=	$(shell find src -type f -name "ft_lst*.c")
-BOTH_SRCS		=	$(SRCS) $(BONUS_SRCS)
+SRCS			=	$(shell find src -type f -name "*.c")
 
 OBJS	= $(SRCS:src/%.c=obj/%.o)
-BONUS_OBJS = $(BONUS_SRCS:src/%.c=obj/%.o)
-BOTH_OBJS = $(BOTH_SRCS:src/%.c=obj/%.o)
 
 TEST_SRCS = $(shell [ -d test ] && find test -type f -name "test_*.c" || echo "")
 TEST_OBJS = $(TEST_SRCS:%.c=obj/%.o)
@@ -22,16 +18,10 @@ RED			=	\033[0;31m
 NC			=	\033[0m
 
 # Rules
-all: both
+all: $(NAME)
 
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
-
-bonus: $(BONUS_OBJS)
-	ar rcs $(NAME) $(BONUS_OBJS)
-
-both: $(BOTH_OBJS)
-	@ar rcs $(NAME) $(BOTH_OBJS)
+	@ar rcs $(NAME) $(OBJS)
 	@echo "$(GREEN)libft.a created$(NC)"
 
 obj/%.o: src/%.c

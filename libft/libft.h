@@ -6,7 +6,7 @@
 /*   By: itjimene <itjimene@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 20:05:31 by itjimene          #+#    #+#             */
-/*   Updated: 2025/04/11 13:17:07 by itjimene         ###   ########.fr       */
+/*   Updated: 2025/04/22 12:46:05 by itjimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,8 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 /* Others */
 void	ft_free_array(char **array);
+
+/* Printf */
+int		ft_printf(char const *format, ...);
 
 #endif

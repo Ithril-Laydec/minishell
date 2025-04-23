@@ -1,5 +1,21 @@
 #include "../minishell.h"
 
+void	free_envs(envs_t *envs)
+{
+	envs_t	*tmp;
+
+	while (envs)
+	{
+		tmp = envs;
+		envs = envs->next;
+		if (tmp->name)
+			free(tmp->name);
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+	}
+}
+
 void	free_data(data_t *d)
 {
 	if (!d)
@@ -14,6 +30,16 @@ void	free_data(data_t *d)
 			free(d->sh_ln->redir);
 		free(d->sh_ln);
 	}
+	if (d->line)
+		free(d->line);
+	if (d->user)
+		free(d->user);
+	if (d->pwd)	
+		free(d->pwd);
+	if (d->envs)	
+		free_envs(d->envs);
+	if (d->str_env)
+		ft_free_array(d->str_env);
 	free(d);
 }
 

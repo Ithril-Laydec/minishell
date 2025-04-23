@@ -55,7 +55,7 @@ static envs_t	*parse_env(char **envs, data_t *d)
 	// tmp = head;
 	// while (tmp)
 	// {
-	// 	printf("envs[%d]: %s=%s\n", i, tmp->name, tmp->value);
+	// 	ft_printf("envs[%d]: %s=%s\n", i, tmp->name, tmp->value);
 	// 	tmp = tmp->next;
 	// 	i++;
 	// }
@@ -65,6 +65,7 @@ static envs_t	*parse_env(char **envs, data_t *d)
 void	init_data(data_t **d, char **envs)
 {
 	*d = salloc(sizeof(data_t), NULL);
+	(*d)->str_env = envs;
 	(*d)->envs = parse_env(envs, *d);
 	(*d)->sh_ln = NULL;
 	(*d)->user = NULL;
