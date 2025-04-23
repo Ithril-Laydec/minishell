@@ -31,7 +31,7 @@ char	*ft_strndup(const char *str, size_t init)
 			break ;
 		end--;
 	}
-	dup = malloc((end - init) + 1);
+	dup = malloc((end - init) + 2);
 	if (!dup)
 		return (NULL);
 	index = 0;

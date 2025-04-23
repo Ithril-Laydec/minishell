@@ -1,16 +1,15 @@
-
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/libft.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <stdio.h>
-#include <stdlib.h>
-
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <errno.h>
 
 
 typedef struct s_redirect
@@ -46,6 +45,7 @@ typedef struct s_data
 	char				*user;
 	// char				*host;
 	char				*pwd;
+	int					exit_status; // Sustituir por variable global
 	// char				*prompt;
 }						data_t;
 
@@ -83,12 +83,24 @@ void			exit_shell(data_t *d);
 void			ft_setenv(char *name, char *value, data_t *d);
 void			ft_unsetenv(char *name, data_t *d);
 
-
-
 /* Executer */
 void			loop(data_t *d);
 void			executer(data_t *d);
+// char			*find_command_path(const char *cmd, char **envp, data_t *d); // Se hará estática o se moverá
+bool			is_builtin(const char *cmd);
+bool			is_parent_builtin(const char *cmd);
+int				execute_builtin(shell_line_t *cmd_node, data_t *d);
 
+// Nuevas declaraciones para la ejecución dividida
+bool			handle_single_parent_builtin(data_t *d, int num_cmds);
+int				execute_pipeline(data_t *d, int num_cmds, pid_t *pids);
+void			setup_child_redirections(int *pipefd, int prev_pipe_read_end, \
+										int current_pipe_write_end, bool is_last);
+void			execute_child_command(shell_line_t *cmd_node, data_t *d);
+void			handle_parent_pipes(int *pipefd, int *prev_pipe_read_end, \
+									int current_pipe_write_end, bool is_last);
+void			wait_for_children(int num_cmds, pid_t *pids, data_t *d);
+char			*find_cmd_path_in_exec(const char *cmd, data_t *d); // Renombrada y movida
 
 
 #endif
