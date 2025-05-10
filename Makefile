@@ -52,5 +52,8 @@ clear:
 test: clear $(LIBFT) $(NAME)
 	./$(NAME)
 
+tester: clear $(LIBFT) $(NAME)
+	
+
 
 .PHONY: all clean fclean re clear

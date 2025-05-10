@@ -64,7 +64,7 @@ void			error(data_t *d, char *msg);
 void			print_ascii_art(const char *filename);
 
 /* Parser */
-shell_line_t	*command_struct(char *line);
+shell_line_t	*command_struct(data_t *d);
 shell_line_t	*command_node(char *line);
 void			free_double_char(char **str);
 int				no_space_finder(char *str);

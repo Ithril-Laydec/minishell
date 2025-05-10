@@ -4,3 +4,5 @@ test
 *.pdf
 minishell
 obj
+
+minishell_tester
