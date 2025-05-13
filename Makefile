@@ -58,5 +58,8 @@ clear:
 test: clear $(LIBFT) $(FT_PRINTF) $(NAME)
 	./$(NAME)
 
+tester: clear $(LIBFT) $(NAME)
+	
+
 
 .PHONY: all clean fclean re clear

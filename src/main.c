@@ -20,8 +20,12 @@ void	loop(data_t *d)
 		d->line = readline(prompter(d));
 		if (d->line == NULL)
 			break;
+		// Comprobar si las comillas son pares o impares
+		
+
+		
 		add_history(d->line);
-		d->sh_ln = command_struct(d->line, d);
+		d->sh_ln = command_struct(d);
 		if (d->sh_ln == NULL)
 		{
 			ft_printf("\n");
