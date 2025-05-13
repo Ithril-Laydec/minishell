@@ -6,6 +6,8 @@ RL				=	-lreadline
 OBJ_DIR			=	obj
 LIBFT_DIR		=	libft
 LIBFT			=	$(LIBFT_DIR)/libft.a
+FT_PRINTF_DIR	= 	ft_printf
+FT_PRINTF		= 	$(FT_PRINTF_DIR)/libftprintf.a
 
 SRCS			=	$(shell find src -type f -name "*.c")
 OBJS			=	$(SRCS:src/%.c=$(OBJ_DIR)/%.o)
@@ -23,8 +25,11 @@ all: $(NAME)
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
-$(NAME): $(LIBFT) $(OBJS)
-	@gcc $(CFLAGS) $(OBJS) $(LIBFT) -g -o $(NAME) $(RL) $(NOPIE)
+$(FT_PRINTF):
+	@make -C $(FT_PRINTF_DIR)
+
+$(NAME): $(LIBFT) $(FT_PRINTF) $(OBJS)
+	@gcc $(CFLAGS) $(OBJS) $(LIBFT) $(FT_PRINTF) -g -o $(NAME) $(RL) $(NOPIE)
 	@echo "$(GREEN)$(NAME) created$(NC)"
 
 $(OBJ_DIR)/%.o: src/%.c
@@ -41,6 +46,7 @@ clean:
 fclean: clean
 	@echo -n "$(RED)"
 	@make -C $(LIBFT_DIR) fclean
+	@make -C  $(FT_PRINTF_DIR) fclean
 	rm -f $(NAME)
 	@echo -n "$(NC)"
 
@@ -49,7 +55,7 @@ re: fclean all
 clear:
 	@clear
 
-test: clear $(LIBFT) $(NAME)
+test: clear $(LIBFT) $(FT_PRINTF) $(NAME)
 	./$(NAME)
 
 

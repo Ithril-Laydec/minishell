@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/libft.h"
+# include "../ft_printf/ft_printf.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -64,11 +65,19 @@ void			error(data_t *d, char *msg);
 void			print_ascii_art(const char *filename);
 
 /* Parser */
-shell_line_t	*command_struct(char *line);
-shell_line_t	*command_node(char *line);
+shell_line_t	*command_struct(char *line, data_t *d);
+shell_line_t	*command_node(char *line, data_t *d);
+char			*command_expander(char *cmd, data_t *d);
 void			free_double_char(char **str);
-int				no_space_finder(char *str);
 char			*ft_strndup(const char *str, size_t init);
+char			*ft_strnndup(const char *str, size_t init, size_t end);
+int				next_end(char *str, char c, int index);
+int				no_space_finder(char *str);
+int				is_space(char c);
+int				commands_chars(char c);
+int				quotations_counter(char *str, char c);
+char			*single_quotation_parsing(char *cmd, int index, data_t *d);
+char			*double_quotation_parsing(char *cmd, int index, data_t *d);
 
 /* Buildt-ins */
 void			echo(char **cmd, data_t *d);
