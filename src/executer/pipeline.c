@@ -18,7 +18,7 @@ static pid_t	fork_process(data_t *d, int i, pid_t *pids, int *pipefd, \
 		while (--i >= 0)
 			waitpid(pids[i], NULL, 0);
 		free(pids);
-		error(d, "fork failed");
+		custom_exit(d, "fork failed");
 	}
 	return (pid);
 }
@@ -36,7 +36,7 @@ static int	create_pipe_if_needed(bool is_last, int *pipefd, data_t *d, \
 			free(pids);
 			if (prev_pipe_read_end != STDIN_FILENO)
 				close(prev_pipe_read_end);
-			error(d, "pipe failed");
+			custom_exit(d, "pipe failed");
 		}
 		current_pipe_write_end = pipefd[1];
 	}

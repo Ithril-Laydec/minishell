@@ -65,9 +65,7 @@ static envs_t	*parse_env(char **envs, data_t *d)
 void	init_data(data_t **d, char **envs)
 {
 	*d = salloc(sizeof(data_t), NULL);
-	(*d)->str_env = envs;
+	(*d)->str_env = ft_str_array_dup(envs);	
 	(*d)->envs = parse_env(envs, *d);
 	(*d)->sh_ln = NULL;
-	(*d)->user = NULL;
-	(*d)->pwd = NULL;
 }

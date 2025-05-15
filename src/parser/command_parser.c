@@ -17,7 +17,7 @@ shell_line_t	*command_node(char *line)
 	return (command);
 }
 
-shell_line_t	*command_struct(char *line)
+shell_line_t	*command_struct(data_t *d)
 {
 	shell_line_t	*commands;
 	shell_line_t	*temp;
@@ -25,8 +25,8 @@ shell_line_t	*command_struct(char *line)
 	int				index;
 
 	index = 0;
-	line = ft_strndup(line, no_space_finder(line));
-	lines = ft_split(line, '|');
+	d->line = ft_strndup(d->line, no_space_finder(d->line));
+	lines = ft_split(d->line, '|');
 	commands = NULL;
 	while (lines[index])
 	{

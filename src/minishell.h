@@ -10,7 +10,21 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <errno.h>
+# include <signal.h>
 
+extern int g_signal;
+
+typedef enum e_signal
+{
+	S_BASE,        // señal Base
+	S_HEREDOC,     // entra en el heredoc
+	S_HEREDOC_END, // finalización del heredoc
+	S_SIGINT,      // Ctrl + C
+	S_SIGINT_CMD,  // Ctrl + C en medio de una comando
+	S_CMD,         // se ejecuta un comando
+	S_CANCEL_EXEC, // Ctrl + D en heredoc
+	S_SIZE
+}			t_signal;
 
 typedef struct s_redirect
 {
@@ -42,15 +56,16 @@ typedef struct s_data
 	struct s_shell_line	*sh_ln;
 	char				**str_env;
 	struct s_envs		*envs; // Lista enlazada para el export
-	char				*user;
+	// char				*user;
 	// char				*host;
-	char				*pwd;
+	// char				*pwd;
 	int					exit_status; // Sustituir por variable global
 	// char				*prompt;
 }						data_t;
 
 /* Utils */
 void			init_data(data_t **d, char **env);
+char			**ft_str_array_dup(char **array);
 void			free_data(data_t *d);
 char			*ft_getenv(char *name, data_t *d);
 void			ft_setenv(char *name, char *value, data_t *d);
@@ -60,8 +75,7 @@ char			*prompter(data_t *d);
 void			*salloc(size_t size, data_t *d);
 
 /* Print an error and exit */
-void			error(data_t *d, char *msg);
-void			print_ascii_art(const char *filename);
+void			custom_exit(data_t *d, char *msg);
 
 /* Parser */
 shell_line_t	*command_struct(data_t *d);
@@ -71,6 +85,7 @@ int				no_space_finder(char *str);
 char			*ft_strndup(const char *str, size_t init);
 
 /* Buildt-ins */
+void			print_ascii_art(const char *filename);
 void			echo(char **cmd, data_t *d);
 void			cd(char **cmd, data_t *d);
 void			pwd(data_t *d);
@@ -90,8 +105,6 @@ void			executer(data_t *d);
 bool			is_builtin(const char *cmd);
 bool			is_parent_builtin(const char *cmd);
 int				execute_builtin(shell_line_t *cmd_node, data_t *d);
-
-// Nuevas declaraciones para la ejecución dividida
 bool			handle_single_parent_builtin(data_t *d, int num_cmds);
 int				execute_pipeline(data_t *d, int num_cmds, pid_t *pids);
 void			setup_child_redirections(int *pipefd, int prev_pipe_read_end, \
@@ -100,7 +113,11 @@ void			execute_child_command(shell_line_t *cmd_node, data_t *d);
 void			handle_parent_pipes(int *pipefd, int *prev_pipe_read_end, \
 									int current_pipe_write_end, bool is_last);
 void			wait_for_children(int num_cmds, pid_t *pids, data_t *d);
-char			*find_cmd_path_in_exec(const char *cmd, data_t *d); // Renombrada y movida
+char			*find_cmd_path_in_exec(const char *cmd, data_t *d);
+
+/* Signals */
+void			init_signals();
+void			ctrl_c(int sig);
 
 
 #endif

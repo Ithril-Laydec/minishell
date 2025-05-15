@@ -53,7 +53,16 @@ test: clear $(LIBFT) $(NAME)
 	./$(NAME)
 
 tester: clear $(LIBFT) $(NAME)
-	
+# entra en minishel_tester y ejecuta tester
+	cd minishell_tester && ./tester
+
+debud: $(LIBFT) $(OBJS)
+	cc $(CFLAGS) -g $(OBJS) $(LIBFT) -o $(NAME) $(RL) $(NOPIE)
+	gdb ./$(NAME)
+
+sanityzer: $(LIBFT) $(OBJS)
+	cc -fsanitize=address -g $(OBJS) $(LIBFT) -o $(NAME) $(RL) $(NOPIE)
+	./$(NAME)
 
 
 .PHONY: all clean fclean re clear

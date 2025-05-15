@@ -32,7 +32,10 @@ int	execute_builtin(shell_line_t *cmd_node, data_t *d)
 	cmd = cmd_node->cmd;
 
 	if (strcmp(cmd[0], "echo") == 0)
+	{
 		echo(cmd, d);
+		return (0);
+	}
 	else if (strcmp(cmd[0], "cd") == 0)
 		cd(cmd, d);
 	else if (strcmp(cmd[0], "pwd") == 0)

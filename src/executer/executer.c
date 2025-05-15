@@ -20,7 +20,7 @@ void	executer(data_t *d)
 		return;
 	pids = malloc(num_cmds * sizeof(pid_t));
 	if (!pids)
-		error(d, "malloc pids failed");
+		custom_exit(d, "malloc pids failed");
 	d->exit_status = 0;
 	execute_pipeline(d, num_cmds, pids);
 	wait_for_children(num_cmds, pids, d);
