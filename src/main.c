@@ -38,10 +38,10 @@ void	loop(data_t *d)
 		executer(d);
 		ft_printf("\n");
 		free(d->line);
-		d->line = NULL;
+		// d->line = NULL;
 		free(d->sh_ln->line);
-		d->sh_ln->line = NULL;
+		// d->sh_ln->line = NULL;
 		free(d->sh_ln->cmd);
-		d->sh_ln->cmd = NULL;
+		// d->sh_ln->cmd = NULL;
 	}
 }
