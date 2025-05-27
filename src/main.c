@@ -7,7 +7,7 @@ int	main(int argc, char **argv, char **envs)
 
 	d = NULL;
 	if (argc > 1 && argv)
-		custom_exit(NULL, "Error: Too many arguments");
+		custom_exit(NULL, "Error: Too many arguments", EXIT_FAILURE);
 	init_data(&d, envs);
 	init_signals();
 	print_ascii_art("shellder.txt");
@@ -25,7 +25,7 @@ void	loop(data_t *d)
 		d->line = readline(prompt);
 		free(prompt);
 		if (d->line == NULL)
-			custom_exit(d, "exit\n");
+			custom_exit(d, "exit", EXIT_SUCCESS);
 		add_history(d->line);
 		d->sh_ln = command_struct(d);
 		if (d->sh_ln == NULL)
@@ -36,12 +36,8 @@ void	loop(data_t *d)
 			continue;
 		}
 		executer(d);
+		if (g_signal == S_SIGINT || g_signal == S_SIGINT_CMD)
+			g_signal = S_BASE;
 		ft_printf("\n");
-		free(d->line);
-		// d->line = NULL;
-		free(d->sh_ln->line);
-		// d->sh_ln->line = NULL;
-		free(d->sh_ln->cmd);
-		// d->sh_ln->cmd = NULL;
 	}
 }

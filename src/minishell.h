@@ -75,7 +75,7 @@ char			*prompter(data_t *d);
 void			*salloc(size_t size, data_t *d);
 
 /* Print an error and exit */
-void			custom_exit(data_t *d, char *msg);
+void			custom_exit(data_t *d, char *msg, int exit_code);
 
 /* Parser */
 shell_line_t	*command_struct(data_t *d);

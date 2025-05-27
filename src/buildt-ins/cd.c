@@ -10,18 +10,18 @@ void	cd(char **cmd, data_t *d)
 	{
 		path = ft_getenv("HOME", d);
 		if (chdir(path) == -1)
-			custom_exit(d, "cd");
+			custom_exit(d, "cd", EXIT_FAILURE);
 	}
 	else if (ft_strcmp(cmd[1], "-") == 0)
 	{
 		oldpwd = ft_getenv("OLDPWD", d);
 		if (chdir(oldpwd) == -1)
-			custom_exit(d, "cd");
+			custom_exit(d, "cd", EXIT_FAILURE);
 	}
 	else
 	{
 		if (chdir(cmd[1]) == -1)
-			custom_exit(d, "cd");
+			custom_exit(d, "cd", EXIT_FAILURE);
 	}
 	newpwd = getcwd(NULL, 0);
 	setenv("OLDPWD", oldpwd, 1);

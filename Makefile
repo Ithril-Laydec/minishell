@@ -56,13 +56,16 @@ tester: clear $(LIBFT) $(NAME)
 # entra en minishel_tester y ejecuta tester
 	cd minishell_tester && ./tester
 
-debud: $(LIBFT) $(OBJS)
+debug: $(LIBFT) $(OBJS)
 	cc $(CFLAGS) -g $(OBJS) $(LIBFT) -o $(NAME) $(RL) $(NOPIE)
 	gdb ./$(NAME)
 
 sanityzer: $(LIBFT) $(OBJS)
 	cc -fsanitize=address -g $(OBJS) $(LIBFT) -o $(NAME) $(RL) $(NOPIE)
 	./$(NAME)
+
+valdgrind: $(LIBFT) $(OBJS)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME)
 
 
 .PHONY: all clean fclean re clear

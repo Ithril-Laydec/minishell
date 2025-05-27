@@ -18,7 +18,7 @@ char *parse_pwd(char *pwd, data_t *d)
 	{
 		char *short_pwd = ft_strjoin("~", pwd + ft_strlen(home));
 		if (!short_pwd)
-			custom_exit(d, "Error: Unable to allocate memory for shortened PWD.");
+			custom_exit(d, "Error: Unable to allocate memory for shortened PWD.", EXIT_FAILURE);
 		return short_pwd;
 	}
 	return ft_strdup(pwd);
@@ -35,12 +35,12 @@ char	*prompter(data_t *d)
 	pwd_path = ft_getenv("PWD", d);
 	pwd = parse_pwd(pwd_path, d);
 	if (user == NULL || pwd == NULL)
-		custom_exit(d, "Error: Unable to get environment variables.");
+		custom_exit(d, "Error: Unable to get environment variables.", EXIT_FAILURE);
 	prompt = ft_strdup("");
 	if (prompt == NULL)
 	{
 		free(pwd);
-		custom_exit(d, "Error: Unable to allocate memory for prompt.");
+		custom_exit(d, "Error: Unable to allocate memory for prompt.", EXIT_FAILURE);
 	}
 	prompt = append_str(prompt, "\001\033[35m\002");
 	prompt = append_str(prompt, user);

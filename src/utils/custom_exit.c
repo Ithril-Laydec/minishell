@@ -61,17 +61,17 @@ void	free_data(data_t *d)
 		free_shell_line(d->sh_ln);
 	if (d->line)
 		free(d->line);
-	if (d->envs)	
+	if (d->envs)
 		free_envs(d->envs);
 	if (d->str_env)
 		ft_free_array(d->str_env);
 	free(d);
 }
 
-void	custom_exit(data_t *d, char *msg)
+void	custom_exit(data_t *d, char *msg, int exit_code)
 {
 	free_data(d);
 	if (msg != NULL)
-		perror(msg);
-	exit(EXIT_FAILURE);
+		ft_printf("%s", msg);
+	exit(exit_code);
 }

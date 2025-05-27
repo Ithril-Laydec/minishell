@@ -20,10 +20,12 @@ void	executer(data_t *d)
 		return;
 	pids = malloc(num_cmds * sizeof(pid_t));
 	if (!pids)
-		custom_exit(d, "malloc pids failed");
+		custom_exit(d, "malloc pids failed", EXIT_FAILURE);
 	d->exit_status = 0;
+	g_signal = S_CMD; // Marcar que estamos ejecutando un comando
 	execute_pipeline(d, num_cmds, pids);
 	wait_for_children(num_cmds, pids, d);
+	g_signal = S_BASE; // Volver al estado base
 	free(pids);
 }
 
