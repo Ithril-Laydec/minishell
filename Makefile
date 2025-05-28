@@ -24,7 +24,7 @@ $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@gcc $(CFLAGS) $(OBJS) $(LIBFT) -g -o $(NAME) $(RL) $(NOPIE)
+	@gcc $(CFLAGS) $(OBJS) $(LIBFT) $(FT_PRINTF) -g -o $(NAME) $(RL) $(NOPIE)
 	@echo "$(GREEN)$(NAME) created$(NC)"
 
 $(OBJ_DIR)/%.o: src/%.c

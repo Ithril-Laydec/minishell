@@ -27,7 +27,7 @@ void	loop(data_t *d)
 		if (d->line == NULL)
 			custom_exit(d, "exit", EXIT_SUCCESS);
 		add_history(d->line);
-		d->sh_ln = command_struct(d);
+		d->sh_ln = command_struct(d->line, d);
 		if (d->sh_ln == NULL)
 		{
 			ft_printf("\n");

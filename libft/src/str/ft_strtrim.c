@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itjimene <itjimene@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: aternero <aternero@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:19:32 by itjimene          #+#    #+#             */
-/*   Updated: 2024/12/21 16:25:07 by itjimene         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:31:05 by aternero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (!trimed)
 		return (NULL);
 	ft_strlcpy(trimed, s1 + start, len - start - end + 1);
-	trimed[len - start - end + 1] = '\0';
+	trimed[len - start - end] = '\0';
 	return (trimed);
 }
