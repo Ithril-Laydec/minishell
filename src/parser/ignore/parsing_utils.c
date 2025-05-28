@@ -1,4 +1,4 @@
-
+/* 
 #include "../minishell.h"
 
 int	quotations_counter(char *str, char c)
@@ -103,4 +103,4 @@ char	*ft_strndup(const char *str, size_t init)
 // ASCII values for the characters
 // $: 36
 // ': 39
-// ": 34
+// ": 34 */

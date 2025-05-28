@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing_split.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aternero <aternero@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 12:46:27 by aternero          #+#    #+#             */
-/*   Updated: 2025/05/28 13:59:08 by aternero         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../minishell.h"
+/* #include "../minishell.h"
 
 static void	parsing_free_array(char **array)
 {
@@ -25,7 +13,7 @@ static void	parsing_free_array(char **array)
 	free(array);
 }
 
-int	parsing_count_words(char const *s, char c)
+static int	parsing_count_words(char const *s, char c)
 {
 	int	i;
 	int	words;
@@ -103,9 +91,7 @@ static char	**parsing_splited_split(const char *s, char **array, char c)
 char	**parsing_split(char const *s, char c)
 {
 	char	**array;
-	char	**ret;
 	int		word_count;
-	int		index;
 
 	word_count = parsing_count_words(s, c);
 	array = (char **)malloc(sizeof(char *) * (word_count + 1));
@@ -114,23 +100,6 @@ char	**parsing_split(char const *s, char c)
 	if (!parsing_splited_split(s, array, c))
 		return (NULL);
 	array[word_count] = NULL;
-	index = 0;
-	while (array[index])
-		index++;
-	ret = malloc(sizeof(char *) * (index + 1));
-	if (!ret)
-	{
-		parsing_free_array(array);
-		return (NULL);
-	}
-	ret[index] = NULL;
-	index = 0;
-	ft_printf("[DEBUG] \n");
-	while (array[index])
-	{
-		ret[index] = ft_strdup(ft_strtrim(array[index], " "));
-		index++;
-	}
-	free_double_char(array);
-	return (ret);
+	return (array);
 }
+ */

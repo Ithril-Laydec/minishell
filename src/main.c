@@ -25,7 +25,10 @@ void	loop(data_t *d)
 
 		
 		add_history(d->line);
-		d->sh_ln = command_struct(d);
+		d->sh_ln = command_struct(d->line, d);
+		int	index = -1;
+		while (d->sh_ln->cmd[++index])
+			printf("%s\n", d->sh_ln->cmd[index]);
 		if (d->sh_ln == NULL)
 		{
 			ft_printf("\n");

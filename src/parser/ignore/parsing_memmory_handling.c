@@ -1,4 +1,4 @@
-
+/*
 #include "../minishell.h"
 
 void	free_double_char(char **str)
@@ -16,3 +16,4 @@ void	free_double_char(char **str)
 	free(str);
 	str = NULL;
 }
+ */

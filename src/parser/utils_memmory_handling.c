@@ -1,41 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_finder.c                                    :+:      :+:    :+:   */
+/*   utils_memmory_handling.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aternero <aternero@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 19:10:33 by aternero          #+#    #+#             */
-/*   Updated: 2025/05/14 19:10:43 by aternero         ###   ########.fr       */
+/*   Created: 2025/05/27 13:08:46 by aternero          #+#    #+#             */
+/*   Updated: 2025/05/28 13:15:30 by aternero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../minishell.h"
 
-int	is_there_dollars(char *str)
+void	array_free(char **array)
 {
 	int	index;
 
+	if (!array)
+		return ;
 	index = -1;
-	while (str[++index])
+	while (array[++index])
 	{
-		if (str[index] == 36)
-			return (1);
+		if (array[index])
+			free(array[index]);
 	}
-	return (0);
+	free(array);
 }
 
-int	is_there_quotes(char *str)
+void	free_double_char(char **str)
 {
 	int	index;
 
-	index = -1;
-	while (str[++index])
+	if (!str)
+		return ;
+	index = 0;
+	while (str[index])
 	{
-		if (str[index] == 34)
-			return (2);
-		if (str[index] == 39)
-			return (1);
+		free(str[index]);
+		str[index] = NULL;
 	}
-	return (0);
+	free(str);
+	str = NULL;
 }

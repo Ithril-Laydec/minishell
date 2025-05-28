@@ -1,4 +1,4 @@
-
+/* 
 #include "../minishell.h"
 
 char	*double_quotation_parsing(char *cmd, int index, data_t *d)
@@ -13,3 +13,4 @@ char	*double_quotation_parsing(char *cmd, int index, data_t *d)
 	temp = command_expander(temp, d);
 	return (temp);
 }
+ */

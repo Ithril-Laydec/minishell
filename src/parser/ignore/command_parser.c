@@ -1,4 +1,4 @@
-
+/* 
 #include "../minishell.h"
 
 
@@ -162,3 +162,4 @@ shell_line_t	*command_struct(char *line, data_t *d)
 	free_double_char(lines);
 	return (commands);
 }
+ */

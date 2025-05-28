@@ -2,6 +2,7 @@
 # define MINISHELL_H
 # include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
+# include "parser/parser.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -65,7 +66,7 @@ void			error(data_t *d, char *msg);
 void			print_ascii_art(const char *filename);
 
 /* Parser */
-shell_line_t	*command_struct(char *line, data_t *d);
+/* shell_line_t	*command_struct(char *line, data_t *d);
 shell_line_t	*command_node(char *line, data_t *d);
 char			*command_expander(char *cmd, data_t *d);
 void			free_double_char(char **str);
@@ -78,6 +79,27 @@ int				commands_chars(char c);
 int				quotations_counter(char *str, char c);
 char			*single_quotation_parsing(char *cmd, int index, data_t *d);
 char			*double_quotation_parsing(char *cmd, int index, data_t *d);
+ */
+shell_line_t	*command_node(char *line, data_t *d);
+shell_line_t	*command_struct(char *line, data_t *d);
+char			*parsing(char *str, data_t *d);
+char			*no_quotes_expand(char *str, data_t *d);
+char			*process_env_variable(data_t *d, char *expanded, char *str, int *index);
+char			*continue_expand(char *expanded, char c);
+char			*parsing_continue(char	*argv);
+char			*parsing_double_quote(char *cmd, char *argv, int *index, char *result);
+char			*parsing_single_quote(char *cmd, char *argv, int *index, char *result);
+char			*parsing_text(char *cmd, char *argv, int *index, char *result);
+int				is_there_quotes(char *str);
+int				is_there_dollars(char *str);
+int				is_space(char c);
+int				no_space_finder(char *str);
+int				flag_calculator(char *line, int index, int quote);
+int				parsing_count_words(char const *s, char c);
+char			**parsing_split(char const *s, char c);
+void			array_free(char **array);
+void			free_double_char(char **str);
+char			*ft_strndup(const char *str, int init);
 
 /* Buildt-ins */
 void			echo(char **cmd, data_t *d);

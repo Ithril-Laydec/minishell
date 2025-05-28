@@ -1,4 +1,4 @@
-#include "../minishell.h"
+/* #include "../minishell.h"
 
 static void	free_array(char **array)
 {
@@ -118,4 +118,4 @@ char	**ft_split_quotes(char const *str, char c)
 		return (NULL);
 	array[word_count] = NULL;
 	return (array);
-}
+} */
