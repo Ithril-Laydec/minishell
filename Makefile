@@ -65,7 +65,7 @@ debug: $(LIBFT) $(OBJS)
 	gdb ./$(NAME)
 
 sanityzer: $(LIBFT) $(OBJS)
-	cc -fsanitize=address -g $(OBJS) $(LIBFT) -o $(NAME) $(RL) $(NOPIE)
+	@cc -fsanitize=address -g $(OBJS) $(LIBFT) -o $(NAME) $(RL) $(NOPIE)
 	./$(NAME)
 
 valdgrind: $(LIBFT) $(OBJS) $(NAME)

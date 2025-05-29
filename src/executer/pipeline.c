@@ -1,81 +1,73 @@
 #include "../minishell.h"
 
-static pid_t	fork_process(data_t *d, int i, pid_t *pids, int *pipefd, \
-							int prev_pipe_read_end, bool is_last)
+pid_t	fork_process(data_t *d)
 {
 	pid_t	pid;
+	int		i;
 
 	pid = fork();
 	if (pid == -1)
 	{
-		if (!is_last)
+		if (!d->pipeline.is_last)
 		{
-			close(pipefd[0]);
-			close(pipefd[1]);
+			close(d->pipeline.pipefd[0]);
+			close(d->pipeline.pipefd[1]);
 		}
-		if (prev_pipe_read_end != STDIN_FILENO)
-			close(prev_pipe_read_end);
+		if (d->pipeline.prev_pipe_read_end != STDIN_FILENO)
+			close(d->pipeline.prev_pipe_read_end);
+		i = d->pipeline.cmd_index;
 		while (--i >= 0)
-			waitpid(pids[i], NULL, 0);
-		free(pids);
+			waitpid(d->pipeline.pids[i], NULL, 0);
+		free(d->pipeline.pids);
 		custom_exit(d, "fork failed", EXIT_FAILURE);
 	}
 	return (pid);
 }
 
-static int	create_pipe_if_needed(bool is_last, int *pipefd, data_t *d, \
-								int prev_pipe_read_end, pid_t *pids)
+void	create_pipe_if_needed(data_t *d)
 {
-	int	current_pipe_write_end;
-
-	current_pipe_write_end = STDOUT_FILENO;
-	if (!is_last)
+	d->pipeline.current_pipe_write_end = STDOUT_FILENO;
+	if (!d->pipeline.is_last)
 	{
-		if (pipe(pipefd) == -1)
+		if (pipe(d->pipeline.pipefd) == -1)
 		{
-			free(pids);
-			if (prev_pipe_read_end != STDIN_FILENO)
-				close(prev_pipe_read_end);
+			free(d->pipeline.pids);
+			if (d->pipeline.prev_pipe_read_end != STDIN_FILENO)
+				close(d->pipeline.prev_pipe_read_end);
 			custom_exit(d, "pipe failed", EXIT_FAILURE);
 		}
-		current_pipe_write_end = pipefd[1];
+		d->pipeline.current_pipe_write_end = d->pipeline.pipefd[1];
 	}
-	return (current_pipe_write_end);
 }
 
-int	execute_pipeline(data_t *d, pid_t *pids)
+int	execute_pipeline(data_t *d)
 {
-	int				i;
-	int				pipefd[2];
-	int				prev_pipe_read_end;
-	int				current_pipe_write_end;
-	shell_line_t	*current_cmd;
-	pid_t			pid;
-	bool			is_last;
+	pid_t	pid;
 
-	i = 0;
-	prev_pipe_read_end = STDIN_FILENO;
-	current_cmd = d->sh_ln;
-	while (current_cmd)
+	d->pipeline.cmd_index = 0;
+	d->pipeline.prev_pipe_read_end = STDIN_FILENO;
+	d->pipeline.current_cmd = d->sh_ln;
+
+	while (d->pipeline.current_cmd)
 	{
-		is_last = (current_cmd->next == NULL);
-		current_pipe_write_end = create_pipe_if_needed(is_last, pipefd, d, \
-													prev_pipe_read_end, pids);
-		pid = fork_process(d, i, pids, pipefd, prev_pipe_read_end, is_last);
+		d->pipeline.is_last = (d->pipeline.current_cmd->next == NULL);
+		create_pipe_if_needed(d);
+		
+		pid = fork_process(d);
+		
 		if (pid == 0)
 		{
-			setup_child_redirections(pipefd, prev_pipe_read_end, \
-									current_pipe_write_end, is_last);
-			execute_child_command(current_cmd, d);
+			setup_child_redirections(d);
+			execute_child_command(d->pipeline.current_cmd, d);
 		}
 		else
 		{
-			pids[i] = pid;
-			handle_parent_pipes(pipefd, &prev_pipe_read_end, \
-								current_pipe_write_end, is_last);
+			d->pipeline.pids[d->pipeline.cmd_index] = pid;
+			handle_parent_pipes(d);
 		}
-		current_cmd = current_cmd->next;
-		i++;
+		
+		d->pipeline.current_cmd = d->pipeline.current_cmd->next;
+		d->pipeline.cmd_index++;
 	}
 	return (0);
 }

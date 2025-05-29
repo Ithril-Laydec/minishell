@@ -103,7 +103,7 @@ void	execute_child_command(shell_line_t *cmd_node, data_t *d)
 	}
 	if (is_builtin(cmd_node->cmd[0]))
 	{
-		builtin_exit_code = execute_builtin(cmd_node, d);
+		builtin_exit_code = execute_builtin(d);
 		exit(builtin_exit_code);
 	}
 	cmd_path = find_cmd_path_in_exec(cmd_node->cmd[0], d);

@@ -72,3 +72,31 @@ void	ft_unsetenv(char *name, data_t *d)
 		tmp = tmp->next;
 	}
 }
+
+void	sort_envs(data_t *d)
+{
+	envs_t	*tmp;
+	envs_t	*next;
+	char	*temp_name;
+	char	*temp_value;
+
+	tmp = d->envs;
+	while (tmp)
+	{
+		next = tmp->next;
+		while (next)
+		{
+			if (ft_strcmp(tmp->name, next->name) > 0)
+			{
+				temp_name = tmp->name;
+				temp_value = tmp->value;
+				tmp->name = next->name;
+				tmp->value = next->value;
+				next->name = temp_name;
+				next->value = temp_value;
+			}
+			next = next->next;
+		}
+		tmp = tmp->next;
+	}
+}

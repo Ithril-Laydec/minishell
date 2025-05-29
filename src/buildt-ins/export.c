@@ -18,34 +18,6 @@ static int	is_valid_identifier(char *name)
 	return (1);
 }
 
-static void	sort_envs(data_t *d)
-{
-	envs_t	*tmp;
-	envs_t	*next;
-	char	*temp_name;
-	char	*temp_value;
-
-	tmp = d->envs;
-	while (tmp)
-	{
-		next = tmp->next;
-		while (next)
-		{
-			if (ft_strcmp(tmp->name, next->name) > 0)
-			{
-				temp_name = tmp->name;
-				temp_value = tmp->value;
-				tmp->name = next->name;
-				tmp->value = next->value;
-				next->name = temp_name;
-				next->value = temp_value;
-			}
-			next = next->next;
-		}
-		tmp = tmp->next;
-	}
-}
-
 static void	print_export_envs(data_t *d)
 {
 	envs_t	*tmp;
@@ -59,13 +31,49 @@ static void	print_export_envs(data_t *d)
 	}
 }
 
-void	export(char **cmd, data_t *d)
+static void	export_error(char *arg, data_t *d)
 {
-	int		i;
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	d->exit_status = 1;
+	return ;
+}
+
+static void	export_variable(char *arg, data_t *d)
+{
 	char	*name;
 	char	*value;
 	char	*equal_sign;
 
+	if (!is_valid_identifier(arg))
+		return (export_error(arg, d));
+	equal_sign = ft_strchr(arg, '=');
+	if (equal_sign)
+	{
+		*equal_sign = '\0';
+		name = ft_strdup(arg);
+		*equal_sign = '=';
+		value = equal_sign + 1;
+	}
+	else
+	{
+		name = ft_strdup(arg);
+		value = "";
+	}
+	if (name)
+	{
+		ft_setenv(name, value, d);
+		free(name);
+	}
+}
+
+void	export(data_t *d)
+{
+	char	**cmd;
+	int		i;
+
+	cmd = d->sh_ln->cmd;
 	if (!cmd[1])
 	{
 		print_export_envs(d);
@@ -74,33 +82,7 @@ void	export(char **cmd, data_t *d)
 	i = 1;
 	while (cmd[i])
 	{
-		if (!is_valid_identifier(cmd[i]))
-		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(cmd[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			d->exit_status = 1;
-			i++;
-			continue;
-		}
-		equal_sign = ft_strchr(cmd[i], '=');
-		if (equal_sign)
-		{
-			*equal_sign = '\0';
-			name = ft_strdup(cmd[i]);
-			*equal_sign = '=';
-			value = equal_sign + 1;
-		}
-		else
-		{
-			name = ft_strdup(cmd[i]);
-			value = "";
-		}
-		if (name)
-		{
-			ft_setenv(name, value, d);
-			free(name);
-		}
+		export_variable(cmd[i], d);
 		i++;
 	}
 }

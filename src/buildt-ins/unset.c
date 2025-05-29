@@ -18,10 +18,12 @@ static int	is_valid_identifier(char *name)
 	return (1);
 }
 
-void	unset(char **cmd, data_t *d)
+void	unset(data_t *d)
 {
-	int	i;
+	int		i;
+	char	**cmd;
 
+	cmd = d->sh_ln->cmd;
 	i = 1;
 	while (cmd[i])
 	{

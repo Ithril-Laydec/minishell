@@ -1,15 +1,15 @@
 #include "../minishell.h"
 
-void	handle_parent_pipes(int *pipefd, int *prev_pipe_read_end, \
-							int current_pipe_write_end, bool is_last)
+void	handle_parent_pipes(data_t *d)
 {
-	if (*prev_pipe_read_end != STDIN_FILENO)
-		close(*prev_pipe_read_end);
-	if (!is_last)
+	if (d->pipeline.prev_pipe_read_end != STDIN_FILENO)
+		close(d->pipeline.prev_pipe_read_end);
+	
+	if (!d->pipeline.is_last)
 	{
-		close(current_pipe_write_end);
-		*prev_pipe_read_end = pipefd[0];
+		close(d->pipeline.current_pipe_write_end);
+		d->pipeline.prev_pipe_read_end = d->pipeline.pipefd[0];
 	}
 	else
-		*prev_pipe_read_end = STDIN_FILENO;
+		d->pipeline.prev_pipe_read_end = STDIN_FILENO;
 }

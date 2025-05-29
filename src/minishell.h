@@ -8,7 +8,6 @@
 # include <sys/wait.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdbool.h>
 # include <errno.h>
 # include <signal.h>
 # include <sys/stat.h>
@@ -56,9 +55,20 @@ typedef struct s_envs
 {
 	char				*name;	// Nombre de la variable
 	char				*value;	// Valor de la variable
-	// int					index;
 	struct s_envs		*next;
 }						envs_t;
+
+typedef struct s_pipeline
+{
+	int					pipefd[2];
+	int					prev_pipe_read_end;
+	int					current_pipe_write_end;
+	int					is_last;
+	pid_t				*pids;
+	int					cmd_count;
+	int					cmd_index;
+	shell_line_t		*current_cmd;
+}						t_pipeline;
 
 typedef struct s_data
 {
@@ -66,11 +76,9 @@ typedef struct s_data
 	struct s_shell_line	*sh_ln;
 	char				**str_env;
 	struct s_envs		*envs; // Lista enlazada para el export
-	// char				*user;
-	// char				*host;
-	// char				*pwd;
-	int					exit_status; // Sustituir por variable global
+	int					exit_status;
 	char				*prompt;
+	t_pipeline			pipeline;
 }						data_t;
 
 /* Utils */
@@ -112,32 +120,35 @@ char			*ft_strndup(const char *str, int init);
 /* Buildt-ins */
 void			print_ascii_art(const char *filename);
 void			echo(char **cmd);
-void			cd(char **cmd, data_t *d);
-void			pwd();
-void			export(char **cmd, data_t *d);
-void			unset(char **cmd, data_t *d);
+void			cd(data_t *d);
+void			pwd(void);
+void			export(data_t *d);
+void			unset(data_t *d);
 void			env(data_t *d);
 void			exit_shell(data_t *d);
+
+/* CD utils */
+void			update_pwd_vars(data_t *d);
 
 /* Envs */
 void			ft_setenv(char *name, char *value, data_t *d);
 void			ft_unsetenv(char *name, data_t *d);
+void			sort_envs(data_t *d);
 
 /* Executer */
 void			loop(data_t *d);
 void			executer(data_t *d);
-bool			is_builtin(const char *cmd);
-bool			is_parent_builtin(const char *cmd);
-int				execute_builtin(shell_line_t *cmd_node, data_t *d);
-bool			handle_single_parent_builtin(data_t *d, int num_cmds);
-int				execute_pipeline(data_t *d, pid_t *pids);
-void			setup_child_redirections(int *pipefd, int prev_pipe_read_end, \
-										int current_pipe_write_end, bool is_last);
+int				is_builtin(const char *cmd);
+int				execute_builtin(data_t *d);
+int				handle_single_parent_buildin(data_t *d);
+int				execute_pipeline(data_t *d);
+void			setup_child_redirections(data_t *d);
 void			execute_child_command(shell_line_t *cmd_node, data_t *d);
-void			handle_parent_pipes(int *pipefd, int *prev_pipe_read_end, \
-									int current_pipe_write_end, bool is_last);
-void			wait_for_children(int num_cmds, pid_t *pids, data_t *d);
+void			handle_parent_pipes(data_t *d);
+void			wait_for_children(data_t *d);
 char			*find_cmd_path_in_exec(const char *cmd, data_t *d);
+pid_t			fork_process(data_t *d);
+void			create_pipe_if_needed(data_t *d);
 
 /* Signals */
 void			init_signals();

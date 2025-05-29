@@ -1,48 +1,38 @@
 #include "../minishell.h"
 
-bool	is_builtin(const char *cmd)
+int	is_builtin(const char *cmd)
 {
 	if (!cmd)
-		return (false);
+		return (0);
 	if (strcmp(cmd, "echo") == 0 || strcmp(cmd, "cd") == 0 ||
 		strcmp(cmd, "pwd") == 0 || strcmp(cmd, "export") == 0 ||
 		strcmp(cmd, "unset") == 0 || strcmp(cmd, "env") == 0 ||
 		strcmp(cmd, "exit") == 0)
-		return (true);
-	return (false);
+		return (1);
+	return (0);
 }
 
-bool	is_parent_builtin(const char *cmd)
+int	execute_builtin(data_t *d)
 {
-	if (!cmd)
-		return (false);
-	if (strcmp(cmd, "cd") == 0 || strcmp(cmd, "export") == 0 ||
-		strcmp(cmd, "unset") == 0 || strcmp(cmd, "exit") == 0)
-		return (true);
-	return (false);
-}
-
-int	execute_builtin(shell_line_t *cmd_node, data_t *d)
-{
-	if (!cmd_node || !cmd_node->cmd || !cmd_node->cmd[0])
+	if (!d->sh_ln || !d->sh_ln->cmd || !d->sh_ln->cmd[0])
 		return (1);
 	d->exit_status = 0;
-	if (strcmp(cmd_node->cmd[0], "echo") == 0)
+	if (strcmp(d->sh_ln->cmd[0], "echo") == 0)
 	{
-		echo(cmd_node->cmd);
+		echo(d->sh_ln->cmd);
 		return (d->exit_status);
 	}
-	else if (strcmp(cmd_node->cmd[0], "cd") == 0)
-		cd(cmd_node->cmd, d);
-	else if (strcmp(cmd_node->cmd[0], "pwd") == 0)
+	else if (strcmp(d->sh_ln->cmd[0], "cd") == 0)
+		cd(d);
+	else if (strcmp(d->sh_ln->cmd[0], "pwd") == 0)
 		pwd();
-	else if (strcmp(cmd_node->cmd[0], "export") == 0)
-		export(cmd_node->cmd, d);
-	else if (strcmp(cmd_node->cmd[0], "unset") == 0)
-		unset(cmd_node->cmd, d);
-	else if (strcmp(cmd_node->cmd[0], "env") == 0)
+	else if (strcmp(d->sh_ln->cmd[0], "export") == 0)
+		export(d);
+	else if (strcmp(d->sh_ln->cmd[0], "unset") == 0)
+		unset(d);
+	else if (strcmp(d->sh_ln->cmd[0], "env") == 0)
 		env(d);
-	else if (strcmp(cmd_node->cmd[0], "exit") == 0)
+	else if (strcmp(d->sh_ln->cmd[0], "exit") == 0)
 		exit_shell(d);
 	else
 		return (127);

@@ -18,12 +18,9 @@ char	**ft_str_array_dup(char **array)
 	i = 0;
 	while (i < len)
 	{
-		new_array[i] = ft_strdup(array[i]);
-		if (!new_array[i])
+		if ((new_array[i] = ft_strdup(array[i])) == NULL)
 		{
-			while (--i >= 0)
-				free(new_array[i]);
-			free(new_array);
+			array_free(new_array);
 			return (NULL);
 		}
 		i++;

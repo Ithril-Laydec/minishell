@@ -1,15 +1,21 @@
 #include "../minishell.h"
 
-bool	handle_single_parent_builtin(data_t *d, int num_cmds)
+static int	is_parent_builtin(const char *cmd)
 {
-	shell_line_t	*cmd_node;
+	if (!cmd)
+		return (0);
+	if (strcmp(cmd, "cd") == 0 || strcmp(cmd, "export") == 0 ||
+		strcmp(cmd, "unset") == 0 || strcmp(cmd, "exit") == 0)
+		return (1);
+	return (0);
+}
 
-	cmd_node = d->sh_ln;
-	if (num_cmds == 1 && is_parent_builtin(cmd_node->cmd[0]))
+int	handle_single_parent_buildin(data_t *d)
+{
+	if (d->pipeline.cmd_count == 1 && is_parent_builtin(d->sh_ln->cmd[0]))
 	{
-
-		d->exit_status = execute_builtin(cmd_node, d);
-		return (true);
+		d->exit_status = execute_builtin(d);
+		return (1);
 	}
-	return (false);
+	return (0);
 }
