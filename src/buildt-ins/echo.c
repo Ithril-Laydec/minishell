@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void	echo(char **cmd, data_t *d)
+void	echo(char **cmd)
 {
 	int	i;
 	int	n_flag;

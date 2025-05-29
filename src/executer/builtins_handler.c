@@ -24,32 +24,27 @@ bool	is_parent_builtin(const char *cmd)
 
 int	execute_builtin(shell_line_t *cmd_node, data_t *d)
 {
-	char	**cmd;
-
 	if (!cmd_node || !cmd_node->cmd || !cmd_node->cmd[0])
 		return (1);
-
-	cmd = cmd_node->cmd;
-
-	if (strcmp(cmd[0], "echo") == 0)
+	d->exit_status = 0;
+	if (strcmp(cmd_node->cmd[0], "echo") == 0)
 	{
-		echo(cmd, d);
-		return (0);
+		echo(cmd_node->cmd);
+		return (d->exit_status);
 	}
-	else if (strcmp(cmd[0], "cd") == 0)
-		cd(cmd, d);
-	else if (strcmp(cmd[0], "pwd") == 0)
-		pwd(d);
-	else if (strcmp(cmd[0], "export") == 0)
-		export(cmd, d);
-	else if (strcmp(cmd[0], "unset") == 0)
-		unset(cmd, d);
-	else if (strcmp(cmd[0], "env") == 0)
+	else if (strcmp(cmd_node->cmd[0], "cd") == 0)
+		cd(cmd_node->cmd, d);
+	else if (strcmp(cmd_node->cmd[0], "pwd") == 0)
+		pwd();
+	else if (strcmp(cmd_node->cmd[0], "export") == 0)
+		export(cmd_node->cmd, d);
+	else if (strcmp(cmd_node->cmd[0], "unset") == 0)
+		unset(cmd_node->cmd, d);
+	else if (strcmp(cmd_node->cmd[0], "env") == 0)
 		env(d);
-	else if (strcmp(cmd[0], "exit") == 0)
+	else if (strcmp(cmd_node->cmd[0], "exit") == 0)
 		exit_shell(d);
 	else
 		return (127);
-
-	return (0);
+	return (d->exit_status);
 }

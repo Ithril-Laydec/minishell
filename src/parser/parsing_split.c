@@ -6,24 +6,11 @@
 /*   By: itjimene <itjimene@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:46:27 by aternero          #+#    #+#             */
-/*   Updated: 2025/05/28 14:17:00 by itjimene         ###   ########.fr       */
+/*   Updated: 2025/05/29 23:44:06 by itjimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static void	parsing_free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
 
 int	parsing_count_words(char const *s, char c)
 {
@@ -88,7 +75,7 @@ static char	**parsing_splited_split(const char *s, char **array, char c)
 			array[w] = ft_substr(s, i, parsing_count_word_size(s, c, i));
 			if (!array[w])
 			{
-				parsing_free_array(array);
+				array_free(array);
 				return (NULL);
 			}
 			w++;
@@ -106,13 +93,17 @@ char	**parsing_split(char const *s, char c)
 	char	**ret;
 	int		word_count;
 	int		index;
+	char	*trimmed;
 
 	word_count = parsing_count_words(s, c);
 	array = (char **)malloc(sizeof(char *) * (word_count + 1));
 	if (!array)
 		return (NULL);
 	if (!parsing_splited_split(s, array, c))
+	{
+		array_free(array);
 		return (NULL);
+	}
 	array[word_count] = NULL;
 	index = 0;
 	while (array[index])
@@ -120,16 +111,32 @@ char	**parsing_split(char const *s, char c)
 	ret = malloc(sizeof(char *) * (index + 1));
 	if (!ret)
 	{
-		parsing_free_array(array);
+		array_free(array);
 		return (NULL);
 	}
 	ret[index] = NULL;
 	index = 0;
 	while (array[index])
 	{
-		ret[index] = ft_strdup(ft_strtrim(array[index], " "));
+		trimmed = ft_strtrim(array[index], " ");
+		if (trimmed)
+		{
+			ret[index] = ft_strdup(trimmed);
+			free(trimmed);
+		}
+		else
+			ret[index] = ft_strdup("");
+		if (!ret[index])
+		{
+			int i = 0;
+			while (i < index)
+				free(ret[i++]);
+			free(ret);
+			array_free(array);
+			return (NULL);
+		}
 		index++;
 	}
-	free_double_char(array);
+	array_free(array);
 	return (ret);
 }

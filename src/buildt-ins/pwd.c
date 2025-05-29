@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void	pwd(data_t *d)
+void	pwd()
 {
 	char	*pwd;
 

@@ -17,6 +17,7 @@ char	*ft_getenv(char *name, data_t *d)
 	}
 	return (NULL);
 }
+
 void	ft_setenv(char *name, char *value, data_t *d)
 {
 	envs_t	*tmp;
@@ -31,6 +32,7 @@ void	ft_setenv(char *name, char *value, data_t *d)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(value);
+			return ;
 		}
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: itjimene <itjimene@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:24:40 by aternero          #+#    #+#             */
-/*   Updated: 2025/05/28 14:28:46 by itjimene         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:58:45 by itjimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,27 @@ char	*continue_expand(char *expanded, char c)
 	return (ret);
 }
 
+char	*process_exit_status(data_t *d, char *expanded, int *index)
+{
+	char	*env;
+	char	*temp;
+
+	env = ft_itoa(d->exit_status);
+	if (!env)
+	{
+		free(expanded);
+		return (NULL);
+	}
+	temp = expanded;
+	expanded = ft_strjoin(expanded, env);
+	free(temp);
+	free(env);
+	if (!expanded)
+		return (NULL);
+	(*index)++;
+	return (expanded);
+}
+
 char	*process_env_variable(data_t *d, char *expanded, char *str, int *index)
 {
 	char	*env;
@@ -36,6 +57,8 @@ char	*process_env_variable(data_t *d, char *expanded, char *str, int *index)
 	int		start;
 
 	start = *index;
+	if (str[*index] == '?')
+		return (process_exit_status(d, expanded, index));
 	while (str[*index] && (ft_isalnum(str[*index]) || str[*index] == '_'))
 		(*index)++;
 	var = ft_substr(str, start, *index - start);

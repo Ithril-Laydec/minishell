@@ -6,7 +6,7 @@
 /*   By: itjimene <itjimene@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:13:24 by aternero          #+#    #+#             */
-/*   Updated: 2025/05/28 14:27:57 by itjimene         ###   ########.fr       */
+/*   Updated: 2025/05/29 22:04:05 by itjimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 char	*no_quotes_expand(char *str, data_t *d)
 {
 	char	*expanded;
-	char	*temp;
 	int		index;
 
 	if (!str)
 		return (NULL);
 	if (is_there_dollars(str) == 0)
-		return (str);
+		return (ft_strdup(str));
 	expanded = ft_strdup("");
 	if (!expanded)
 		return (NULL);

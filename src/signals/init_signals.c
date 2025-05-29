@@ -4,14 +4,14 @@ int	g_signal;
 
 void	signal_handler(int sig)
 {
-	if (sig == SIGINT) // Ctrl+C
+	if (sig == SIGINT)
 	{
-		if (g_signal == S_CMD) // Si hay un comando en ejecución
+		if (g_signal == S_CMD)
 		{
 			g_signal = S_SIGINT_CMD;
 			ft_printf("\n");
 		}
-		else // Modo normal (shell interactiva)
+		else
 		{
 			g_signal = S_SIGINT;
 			ft_printf("\n");
@@ -20,7 +20,7 @@ void	signal_handler(int sig)
 			rl_redisplay();
 		}
 	}
-	else if (sig == SIGQUIT) // Ctrl+Backslash
+	else if (sig == SIGQUIT)
 	{
 		g_signal = S_SIGINT_CMD;
 		ft_printf("Quit: %d\n", sig);
@@ -30,6 +30,6 @@ void	signal_handler(int sig)
 void	init_signals()
 {
 	g_signal = S_BASE;
-	signal(SIGINT, signal_handler); // Maneja Ctrl+C
-	signal(SIGQUIT, SIG_IGN); // Maneja Ctrl+Backslash
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

@@ -43,7 +43,7 @@ static int	create_pipe_if_needed(bool is_last, int *pipefd, data_t *d, \
 	return (current_pipe_write_end);
 }
 
-int	execute_pipeline(data_t *d, int num_cmds, pid_t *pids)
+int	execute_pipeline(data_t *d, pid_t *pids)
 {
 	int				i;
 	int				pipefd[2];

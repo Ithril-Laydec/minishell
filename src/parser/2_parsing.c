@@ -6,7 +6,7 @@
 /*   By: itjimene <itjimene@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:11:46 by aternero          #+#    #+#             */
-/*   Updated: 2025/05/28 14:26:29 by itjimene         ###   ########.fr       */
+/*   Updated: 2025/05/29 22:04:00 by itjimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,14 @@ char	*parsing(char *str, data_t *d)
 	{
 		cmd = no_quotes_expand(str, d);
 		if (!cmd)
-		{
-			free(str);
 			return (NULL);
-		}
 		return (cmd);
 	}
 	else
 	{
 		cmd = parsing_continue(str);
 		if (!cmd)
-		{
-			free(str);
 			return (NULL);
-		}
-		free(str);
 		return (cmd);
 	}
 }

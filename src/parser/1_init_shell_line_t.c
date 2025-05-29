@@ -6,7 +6,7 @@
 /*   By: itjimene <itjimene@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:07:33 by aternero          #+#    #+#             */
-/*   Updated: 2025/05/28 14:28:14 by itjimene         ###   ########.fr       */
+/*   Updated: 2025/05/29 23:32:39 by itjimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ shell_line_t	*command_node(char *line, data_t *d)
 
 	command = (shell_line_t *)ft_calloc(1, sizeof(shell_line_t));
 	if (!command)
+		return (NULL);
+	command->line = ft_strtrim(line, " ");
+	if (!command->line)
 	{
 		free(command);
 		return (NULL);
 	}
-	command->line = ft_strtrim(line, " ");
 	temp = parsing_split(line, ' ');
 	if (!temp)
 	{
@@ -36,15 +38,28 @@ shell_line_t	*command_node(char *line, data_t *d)
 	if (!command->cmd)
 	{
 		free(command->line);
-		free(command);
 		array_free(temp);
 		free(command);
 		return (NULL);
 	}
 	yndex = -1;
 	while (temp[++yndex])
+	{
 		command->cmd[yndex] = parsing(temp[yndex], d);
+		if (!command->cmd[yndex])
+		{
+			int i = 0;
+			while (i < yndex)
+				free(command->cmd[i++]);
+			free(command->cmd);
+			free(command->line);
+			array_free(temp);
+			free(command);
+			return (NULL);
+		}
+	}
 	command->cmd[yndex] = NULL;
+	array_free(temp);
 	command->next = NULL;
 	command->redir = NULL;
 	return (command);

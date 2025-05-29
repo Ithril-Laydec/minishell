@@ -1,6 +1,5 @@
 # include "minishell.h"
 
-
 int	main(int argc, char **argv, char **envs)
 {
 	data_t	*d;
@@ -15,15 +14,14 @@ int	main(int argc, char **argv, char **envs)
 	free_data(d);
 	return (0);
 }
+
 void	loop(data_t *d)
 {
-	char	*prompt;
-
 	while (42)
 	{
-		prompt = prompter(d);
-		d->line = readline(prompt);
-		free(prompt);
+		d->prompt = prompter(d);
+		d->line = readline(d->prompt);
+		free(d->prompt);
 		if (d->line == NULL)
 			custom_exit(d, "exit", EXIT_SUCCESS);
 		add_history(d->line);
@@ -36,8 +34,11 @@ void	loop(data_t *d)
 			continue;
 		}
 		executer(d);
+		free_shell_line(d->sh_ln);
+		d->sh_ln = NULL;
+		free(d->line);
+		d->line = NULL;
 		if (g_signal == S_SIGINT || g_signal == S_SIGINT_CMD)
 			g_signal = S_BASE;
-		ft_printf("\n");
 	}
 }

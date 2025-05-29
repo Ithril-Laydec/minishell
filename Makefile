@@ -1,6 +1,6 @@
 # Variables
 NAME			=	minishell
-CFLAGS			=	# -Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror
 NOPIE			=	-no-pie
 RL				=	-lreadline
 OBJ_DIR			=	obj
@@ -19,11 +19,14 @@ NC				=	\033[0m
 # Rules
 all: $(NAME)
 
+.PHONY: libft
 
-$(LIBFT):
-	@make -C $(LIBFT_DIR)
+libft:
+	@make --no-print-directory -C $(LIBFT_DIR)
 
-$(NAME): $(LIBFT) $(OBJS)
+$(LIBFT): libft
+
+$(NAME): clear $(LIBFT) $(OBJS)
 	@gcc $(CFLAGS) $(OBJS) $(LIBFT) $(FT_PRINTF) -g -o $(NAME) $(RL) $(NOPIE)
 	@echo "$(GREEN)$(NAME) created$(NC)"
 
@@ -40,7 +43,7 @@ clean:
 
 fclean: clean
 	@echo -n "$(RED)"
-	@make -C $(LIBFT_DIR) fclean
+	@make --no-print-directory -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 	@echo -n "$(NC)"
 
@@ -53,8 +56,9 @@ test: clear $(LIBFT) $(NAME)
 	./$(NAME)
 
 tester: clear $(LIBFT) $(NAME)
-# entra en minishel_tester y ejecuta tester
-	cd minishell_tester && ./tester
+	cd minishell_tester && bash -c "./tester | sed 's/\x1b\[[0-9;]*m//g' | tee errors.txt"
+	@cd minishell_tester && sed -i '/Test.*✅/d' errors.txt
+	@echo "$(GREEN)Errors results saved to minishell_tester/errors.txt$(NC)"
 
 debug: $(LIBFT) $(OBJS)
 	cc $(CFLAGS) -g $(OBJS) $(LIBFT) -o $(NAME) $(RL) $(NOPIE)
@@ -64,8 +68,8 @@ sanityzer: $(LIBFT) $(OBJS)
 	cc -fsanitize=address -g $(OBJS) $(LIBFT) -o $(NAME) $(RL) $(NOPIE)
 	./$(NAME)
 
-valdgrind: $(LIBFT) $(OBJS)
+valdgrind: $(LIBFT) $(OBJS) $(NAME)
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME)
 
 
-.PHONY: all clean fclean re clear
+.PHONY: all clean fclean re clear libft

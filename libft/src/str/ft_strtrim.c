@@ -3,46 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aternero <aternero@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: itjimene <itjimene@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:19:32 by itjimene          #+#    #+#             */
-/*   Updated: 2025/05/28 13:31:05 by aternero         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:22:40 by itjimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
 
-static int	is_in_set(char c, char const *set)
-{
-	while (*set && ft_strlen(set) != 0)
-	{
-		if (*set == c)
-			return (1);
-		set++;
-	}
-	return (0);
-}
+// static int	is_in_set(char c, char const *set)
+// {
+// 	while (*set && ft_strlen(set) != 0)
+// 	{
+// 		if (*set == c)
+// 			return (1);
+// 		set++;
+// 	}
+// 	return (0);
+// }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	start;
-	size_t	end;
+	char	*str;
+	size_t	i;
+	size_t	j;
 	size_t	len;
-	char	*trimed;
 
-	start = 0;
-	end = 0;
-	len = ft_strlen((char *)s1);
-	while (s1[start] && is_in_set(s1[start], set))
-		start++;
-	while (is_in_set(s1[len - end - 1], set))
-		end++;
-	if (len == start || len == end)
-		return (ft_strdup(""));
-	trimed = malloc(sizeof(char) * ((len - start - end) + 1));
-	if (!trimed)
+	if (!s1 || !set)
 		return (NULL);
-	ft_strlcpy(trimed, s1 + start, len - start - end + 1);
-	trimed[len - start - end] = '\0';
-	return (trimed);
+	i = 0;
+	while (s1[i] && ft_strchr(set, s1[i]))
+		i++;
+	j = ft_strlen(s1);
+	while (j > i && ft_strchr(set, s1[j - 1]))
+		j--;
+	len = j - i;
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s1 + i, len + 1);
+	return (str);
+	
 }
